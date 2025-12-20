@@ -1,11 +1,11 @@
+import { ThemedText } from "@/components/themed-text";
+import { ThemedView } from "@/components/themed-view";
+import { useThemeColor } from "@/hooks/use-theme-color";
 import { useState } from "react";
 import {
-  Button,
   FlatList,
-  Text,
   TextInput,
   TouchableOpacity,
-  View,
 } from "react-native";
 
 type Expense = {
@@ -20,6 +20,10 @@ export default function HomeScreen() {
 
   const categories = ["Comida", "Transporte", "Ocio", "Otros"];
 
+  const backgroundColor = useThemeColor({}, 'background');
+  const textColor = useThemeColor({}, 'text');
+  const tintColor = useThemeColor({}, 'tint');
+
   const addExpense = () => {
     if (!amount) return;
 
@@ -32,10 +36,10 @@ export default function HomeScreen() {
   };
 
   return (
-    <View style={{ padding: 20 }}>
-      <Text style={{ fontSize: 24, marginBottom: 10 }}>
+    <ThemedView style={{ padding: 20, flex: 1 }}>
+      <ThemedText type="title" style={{ marginBottom: 10 }}>
         MoneyFlow 💸
-      </Text>
+      </ThemedText>
 
       <TextInput
         placeholder="Monto"
@@ -44,52 +48,67 @@ export default function HomeScreen() {
         onChangeText={setAmount}
         style={{
           borderWidth: 1,
-          borderColor: "#ccc",
+          borderColor: textColor,
+          backgroundColor: backgroundColor,
+          color: textColor,
           padding: 10,
           marginBottom: 10,
           borderRadius: 6,
         }}
+        placeholderTextColor={textColor}
       />
 
-      <Text style={{ marginBottom: 5 }}>Categoría</Text>
+      <ThemedText style={{ marginBottom: 5 }}>Categoría</ThemedText>
 
-      <View style={{ flexDirection: "row", marginBottom: 10 }}>
+      <ThemedView style={{ flexDirection: "row", marginBottom: 10 }}>
         {categories.map((cat) => (
           <TouchableOpacity
-  key={cat}
-  onPress={() => setCategory(cat)}
-  style={{
-    padding: 10,
-    marginRight: 5,
-    borderRadius: 6,
-    backgroundColor:
-      category === cat ? "#4CAF50" : "#ddd",
-  }}
->
-  <Text
-    style={{
-      color: category === cat ? "#fff" : "#000",
-      fontWeight: category === cat ? "600" : "400",
-    }}
-  >
-    {cat}
-  </Text>
-</TouchableOpacity>
-
+            key={cat}
+            onPress={() => setCategory(cat)}
+            style={{
+              padding: 10,
+              marginRight: 5,
+              borderRadius: 6,
+              backgroundColor: category === cat ? tintColor : backgroundColor,
+              borderWidth: 1,
+              borderColor: textColor,
+            }}
+          >
+            <ThemedText
+              style={{
+                fontWeight: category === cat ? "600" : "400",
+              }}
+            >
+              {cat}
+            </ThemedText>
+          </TouchableOpacity>
         ))}
-      </View>
+      </ThemedView>
 
-      <Button title="Agregar gasto" onPress={addExpense} />
+      <TouchableOpacity
+        onPress={addExpense}
+        style={{
+          backgroundColor: tintColor,
+          padding: 10,
+          borderRadius: 6,
+          alignItems: 'center',
+          marginBottom: 20,
+        }}
+      >
+        <ThemedText style={{ color: backgroundColor, fontWeight: '600' }}>
+          Agregar gasto
+        </ThemedText>
+      </TouchableOpacity>
 
       <FlatList
         data={expenses}
         keyExtractor={(_, index) => index.toString()}
         renderItem={({ item }) => (
-          <Text style={{ marginTop: 10, fontSize: 18 }}>
+          <ThemedText style={{ marginTop: 10, fontSize: 18 }}>
             ${item.amount} - {item.category}
-          </Text>
+          </ThemedText>
         )}
       />
-    </View>
+    </ThemedView>
   );
 }
