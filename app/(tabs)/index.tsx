@@ -19,6 +19,14 @@ export default function HomeScreen() {
   const [expenses, setExpenses] = useState<Expense[]>([]);
 
   const categories = ["Comida", "Transporte", "Ocio", "Otros"];
+  const summary = categories.map((cat) => {
+  const total = expenses
+    .filter((e) => e.category === cat)
+    .reduce((sum, e) => sum + Number(e.amount), 0);
+
+  return { category: cat, total };
+});
+
 
   const backgroundColor = useThemeColor({}, 'background');
   const textColor = useThemeColor({}, 'text');
@@ -101,7 +109,26 @@ export default function HomeScreen() {
           Agregar gasto
         </ThemedText>
       </TouchableOpacity>
+<ThemedText type="subtitle" style={{ marginTop: 20 }}>
+  Resumen
+</ThemedText>
 
+{summary.map((item) => (
+  <ThemedView
+    key={item.category}
+    style={{
+      flexDirection: "row",
+      justifyContent: "space-between",
+      marginTop: 8,
+      paddingVertical: 4,
+    }}
+  >
+    <ThemedText>{item.category}</ThemedText>
+    <ThemedText style={{ fontWeight: "600" }}>
+      ${item.total}
+    </ThemedText>
+  </ThemedView>
+))}
       <FlatList
         data={expenses}
         keyExtractor={(_, index) => index.toString()}
