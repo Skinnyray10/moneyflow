@@ -74,13 +74,15 @@ export default function HomeScreen() {
               borderColor: textColor,
             }}
           >
-            <ThemedText
-              style={{
-                fontWeight: category === cat ? "600" : "400",
-              }}
-            >
-              {cat}
+            <ThemedText 
+  style={{
+    fontWeight: category === cat ? "600" : "400",
+    color: category === cat ? backgroundColor : textColor,
+  }}
+>
+  {cat}
             </ThemedText>
+
           </TouchableOpacity>
         ))}
       </ThemedView>
