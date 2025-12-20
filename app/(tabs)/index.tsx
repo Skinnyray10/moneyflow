@@ -56,20 +56,26 @@ export default function HomeScreen() {
       <View style={{ flexDirection: "row", marginBottom: 10 }}>
         {categories.map((cat) => (
           <TouchableOpacity
-            key={cat}
-            onPress={() => setCategory(cat)}
-            style={{
-              padding: 10,
-              marginRight: 5,
-              borderRadius: 6,
-              backgroundColor:
-                category === cat ? "#4CAF50" : "#ddd",
-            }}
-          >
-            <Text style={{ color: "#000" }}>
-              {cat}
-            </Text>
-          </TouchableOpacity>
+  key={cat}
+  onPress={() => setCategory(cat)}
+  style={{
+    padding: 10,
+    marginRight: 5,
+    borderRadius: 6,
+    backgroundColor:
+      category === cat ? "#4CAF50" : "#ddd",
+  }}
+>
+  <Text
+    style={{
+      color: category === cat ? "#fff" : "#000",
+      fontWeight: category === cat ? "600" : "400",
+    }}
+  >
+    {cat}
+  </Text>
+</TouchableOpacity>
+
         ))}
       </View>
 
