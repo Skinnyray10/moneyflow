@@ -1,12 +1,14 @@
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
 import { useThemeColor } from "@/hooks/use-theme-color";
-import { useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import React, { useEffect, useState } from "react";
 import {
   FlatList,
   TextInput,
   TouchableOpacity,
 } from "react-native";
+
 
 type Expense = {
   amount: string;
@@ -35,13 +37,26 @@ export default function HomeScreen() {
   const addExpense = () => {
     if (!amount) return;
 
-    setExpenses([
-      ...expenses,
+    setExpenses((prev) => [
+      ...prev,
       { amount, category },
     ]);
 
     setAmount("");
   };
+
+  useEffect(() => {
+    AsyncStorage.setItem("expenses", JSON.stringify(expenses));
+  }, [expenses]);
+
+  useEffect(() => {
+    const loadExpenses = async () => {
+      const data = await AsyncStorage.getItem("expenses");
+      if (data) setExpenses(JSON.parse(data));
+    };
+
+    loadExpenses();
+  }, []);
 
   return (
     <ThemedView style={{ padding: 20, flex: 1 }}>
@@ -50,7 +65,7 @@ export default function HomeScreen() {
       </ThemedText>
 
       <TextInput
-        placeholder="Monto"
+        placeholder="Cantidad"
         keyboardType="numeric"
         value={amount}
         onChangeText={setAmount}
@@ -114,28 +129,33 @@ export default function HomeScreen() {
 </ThemedText>
 
 {summary.map((item) => (
-  <ThemedView
-    key={item.category}
-    style={{
-      flexDirection: "row",
-      justifyContent: "space-between",
-      marginTop: 8,
-      paddingVertical: 4,
-    }}
-  >
+  <ThemedView key={item.category} style={{ marginTop: 8 }}>
     <ThemedText>{item.category}</ThemedText>
-    <ThemedText style={{ fontWeight: "600" }}>
-      ${item.total}
-    </ThemedText>
+
+    <ThemedView
+      style={{
+        height: 10,
+        width: item.total,
+        backgroundColor: tintColor,
+        borderRadius: 4,
+        marginTop: 4,
+      }}
+    />
   </ThemedView>
 ))}
       <FlatList
         data={expenses}
         keyExtractor={(_, index) => index.toString()}
-        renderItem={({ item }) => (
-          <ThemedText style={{ marginTop: 10, fontSize: 18 }}>
-            ${item.amount} - {item.category}
-          </ThemedText>
+        renderItem={({ item, index }) => (
+          <TouchableOpacity
+            onPress={() => {
+              setExpenses((prev) => prev.filter((_, i) => i !== index));
+            }}
+          >
+            <ThemedText style={{ marginTop: 10, fontSize: 18 }}>
+              ${item.amount} - {item.category}
+            </ThemedText>
+          </TouchableOpacity>
         )}
       />
     </ThemedView>
