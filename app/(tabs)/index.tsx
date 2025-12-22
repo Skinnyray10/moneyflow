@@ -3,7 +3,9 @@ import { ThemedView } from "@/components/themed-view";
 import { useThemeColor } from "@/hooks/use-theme-color";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useEffect, useState } from "react";
+
 import {
+  Alert,
   FlatList,
   TextInput,
   TouchableOpacity
@@ -285,8 +287,23 @@ export default function HomeScreen() {
         keyExtractor={(item) => item.id} // Usa el ID único como key
         renderItem={({ item, index }) => (
           <TouchableOpacity
-            onPress={() => removeExpense(index)} // Elimina el gasto al tocarlo
-          >
+            onPress={ () => {
+              Alert.alert(
+                "Eliminar gasto",
+                `¿Estás seguro de que quieres eliminar el gasto de $${item.amount} en ${item.category}?`,
+                [
+                  {
+                    text: "Cancelar", style: "cancel",
+                  },
+                  {
+                    text: "Eliminar",
+                    style: "destructive",
+                    onPress: () => setExpenses(prev => prev.filter((_, i) => i !== index))
+                  }
+                ]
+              );
+            }} // Elimina el gasto al tocarlo
+          > 
             <ThemedText style={{ marginTop: 10, fontSize: 18 }}>
               ${item.amount} - {item.category}
             </ThemedText>
