@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from "react-native";
-import { Transaction } from "../src/models/Transaction";
+import { Transaction } from "../../src/models/Transaction";
 
 export default function TransactionItem({
   transaction,

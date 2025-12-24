@@ -1,10 +1,10 @@
 import { PropsWithChildren, useState } from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 
+import { useColorScheme } from '@/../../src/hooks/use-color-scheme';
 import { IconSymbol } from '@/components/ui/icon-symbol';
 import { ThemedText } from '@/components/ui/themed-text';
 import { ThemedView } from '@/components/ui/themed-view';
-import { useColorScheme } from '@/hooks/use-color-scheme';
 const Colors = {
   light: { icon: '#000' },
   dark: { icon: '#fff' },

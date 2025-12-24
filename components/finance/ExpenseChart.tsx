@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from "react-native";
-import { Transaction } from "../src/models/Transaction";
-import { expensesByCategory } from "../src/utils/stats";
+import { Transaction } from "../../src/models/Transaction";
+import { expensesByCategory } from "../../src/utils/stats";
 
 export default function ExpenseChart({
   transactions,
