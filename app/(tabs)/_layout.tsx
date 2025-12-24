@@ -9,12 +9,13 @@ export default function TabsLayout() {
       />
       <Tabs.Screen
         name="add"
-        options={{ title: "Agregar" }}
+        options={{ title: "Agregar movimiento" }}
       />
       <Tabs.Screen
         name="history"
         options={{ title: "Historial" }}
       />
+      
     </Tabs>
   );
 }

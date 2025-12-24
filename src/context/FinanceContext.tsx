@@ -1,14 +1,14 @@
 import React, {
-    createContext,
-    useContext,
-    useEffect,
-    useState,
+  createContext,
+  useContext,
+  useEffect,
+  useState,
 } from "react";
 import { Transaction } from "../models/Transaction";
 import {
-    loadTransactions,
-    saveTransactions,
-} from "../storage/storage";
+  loadTransactions,
+  saveTransactions,
+} from "../storage/financeStorage";
 
 interface FinanceContextType {
   transactions: Transaction[];
